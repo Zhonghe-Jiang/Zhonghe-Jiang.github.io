@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=16b471b7ce8a16a2d172d2c6693b3c99cc44912e">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Rotary Inverted Pendulum | Zhonghe Jiang</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Rotary Inverted Pendulum" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Control boy who likes robotics!" />
+<meta property="og:description" content="Control boy who likes robotics!" />
+<link rel="canonical" href="http://localhost:4000/RIP.html" />
+<meta property="og:url" content="http://localhost:4000/RIP.html" />
+<meta property="og:site_name" content="Zhonghe Jiang" />
+<script type="application/ld+json">
+{"description":"Control boy who likes robotics!","@type":"WebPage","url":"http://localhost:4000/RIP.html","headline":"Rotary Inverted Pendulum","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Zhonghe Jiang</h1>
+        <h2>Control boy who likes robotics!</h2>
+
+        <section id="downloads">
+          <a href="http://localhost:4000/download/RIP_Zhonghe_Jiang.pdf" class="btn">Download my thesis</a>
+          <!-- <a href="https://github.com/Zhonghe-Jiang/Zhonghe-Jiang.github.io" class="btn btn-github"><span class="icon"></span>View on GitHub</a> -->
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2 id="introduction">Introduction</h2>
+
+<p>This project goes through the complete control design procedures for a dynamical system, which can serve as background information on inverted pendulum and a guide if you are interested in working on similar projects. What summarizes below is some general ideas of designing control algorithms.</p>
+
+<h2 id="modelling">Modelling</h2>
+
+<p>The first step in designing a control algorithm is to obtain the model of the system. In robotics, this often refers to multi-rigid-body kinematics and dynamics. If the robot you are trying to control has too many degrees of freedom, like a humanoid, it is almost impossible to derive these equations by hand. Fortunately, there are many sophisticated <a href="https://answers.ros.org/question/48326/urdf-to-lagrangian-equations-of-motion/">libraries</a> can do it and you only need to represent the robot model as urdf or similar description format. Although these tools are very powerful, hand-deriving the equations of motion for simple systems are still useful to understand the terms appearing in the equations. Sometimes, it is particularly important to identify the key parameters which affect the system dynamics. For example, a longer pendulum will be easier to stabilize by your finger than a shorter one. Hence, if we could identify this before manufacturing, this will give much benefit in designing control algorithms. In my thesis, you could find the detailed derivation of the dynamic model of a rotary inverted pendulum using Lagrangian equations of motion.</p>
+
+<p>After obtaining a dynamic model, the unknown parameters in it should be identified. Some parameters like mass, length, gear ratio and so on can be known in advance, while other parameters like armature resistance or Coulomb friction can be determined by doing specific experiments. The remaining parameters can only be estimated and this often refers to the area of system identification. Successfully implementing one of the parameter estimation algorithms requires much practicalexperience and can be difficult for beginners. This always happens when the dimension of state space increases or the nonlinear dynamics becomes evident. Therefore, I would suggest using <a href="https://uk.mathworks.com/products/sl-design-optimization.html">Simulink Design Optimization</a> to help you tune these model parameters. In my thesis, I constructed an Extended Kalman Filter to estimate some unknown parameters. The result was satisfactory due to the relatively simple system dynamics and small number of unknown parameters. I also summarized the experience of implementing this algorithm, which can be useful if you are interested in doing similar stuff.</p>
+
+<h2 id="simulation">Simulation</h2>
+<p>I think the ability to use simulation software to simulate system dynamics is a necessary skill for any control engineers. This is extremely important in robotics because building a robot could be very expensive and if the control algorithm is not validated in the simulation first, it could damage the hardware and takes weeks to repair. Building dynamical systems using cascaded integrators is a classical tool to simulate complex dynamics. <a href="http://ctms.engin.umich.edu/CTMS/index.php?example=InvertedPendulum&amp;section=SimulinkModeling">Here</a> is an excellent tutorial of building an inverted pendulum model in Simulink. For even more complex systems, writing a robot description file like urdf used in Gazebo could be the best option for beginners. In my thesis, I built a rotary inverted pendulum model in Simulink employing the equations of motion and another Simscape model without any mathematical equations.</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>Since the mathematical model has been constructed, the next step is to analyse the system dynamics. There are many tools to analyse linear systems, like controllability and observability tests are used to know whether there exists a trajectory to a specific state or is it possible to estimate the states from inputs and outputs. However, when it comes to nonlinear dynamics, the things become far more complicated. For low-dimensional systems, phase portrait is an excellent tool to understand the dynamics in state space. When the dimension increases, Lyapunov analysis via semi-definite program (SDP) or sum of squares (SOS) could be a powerful tool to study stability. However, these two methods are still a very small portion of this rich and continuously evolving field of nonlinear dynamics.</p>
+
+<h2 id="control-algorithms">Control algorithms</h2>
+<p>The control theory for linear systems is extremely advanced compared with nonlinear systems. To stabilize the pendulum at the inverted position, one can linearize the nonlinear dynamics around the inverted position and use linear controllers like linear quadratic regulator (LQR). When it comes to the swing-up control, its inherent nonlinearity will affect the dynamics significantly. One could come up with a heuristic energy-based approach, like what I did in my thesis, without the need of dealing with the nonlinear dynamics. However, if you have a relatively accurate model to capture the nonlinear behaviour, I think optimal control is the best option to design a controller in robotics nowadays. Especially, trajectory optimization is a very powerful tool to generate complex motions for quadrotors, legged robots or autonomous vehicles. If the algorithm can be computed fast enough, it can be implemented in an MPC fashion (model predive control). If you are interested in learning optimization to solve complex dynamics problem, I would definitely recommend the <a href="http://underactuated.csail.mit.edu/underactuated.html">underactuated robotics course</a>  delivered by <a href="http://groups.csail.mit.edu/locomotion/russt.html">Prof. Russ Tedrake</a>. The controller used to control the pendulum in my thesis is a hybrid one which switches between swing-up and balancing control. There is also much practical experience in tuning PID controllers mentioned in it.</p>
+
+<p><a href="./">back to home</a></p>
+
+      </section>
+    </div>
+
+    
+  </body>
+</html>
