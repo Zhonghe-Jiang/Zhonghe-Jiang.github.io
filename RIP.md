@@ -1,5 +1,5 @@
 ---
-layout: default_with_download
+layout: pendulum
 title: Rotary Inverted Pendulum
 ---
 

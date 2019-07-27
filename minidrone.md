@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: minidrone
 title: Mathworks Minidrone Competition
 ---
 

@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=033897ba5955ec0eb30f4e0cbafd368d7e10dbd1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=116f417332729513826b0d314907bb75a679aef3">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>SLIDER | Zhonghe Jiang</title>
@@ -45,12 +45,16 @@
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
     </header>
 
+    <center>
+      <img src="http://localhost:4000/pictures/slider0.jpeg" alt="Testing with SLIDER" width="500" height="500">
+    </center>
+
     <div class="container">
       <section id="main_content">
         <h2 id="introduction">Introduction</h2>
 <p>SLIDER is a novel bipedal walking robot with knee-less legs and has a vertical hip sliding motion. <a href="http://kormushev.com/publication/wang2018clawar/">Here</a> is a more detailed description about its mechanical design. My project is focused on the control algorithm for motion planning of this robot. Since the whole SLIDER project is still in progress and we are at the key stage of walking test, we cannot provide too much detailed information about this project. But, hopefully, we will finish the walking test in this summer.</p>
 
-<h2 id="linear-inverted-pendulum-and-preview-control">Linear inverted pendulum and preview Control</h2>
+<h2 id="linear-inverted-pendulum-and-preview-control">Linear inverted pendulum and preview control</h2>
 <p>The current control algorithm we are using is a two-stage controller, where the first stage generates the centre of mass (COM) and feet trajectories using linear inverted pendulum (LIMP) model and the second stage uses preview control to refine the trajectories by considering the multi-body kinematics so that the final joint trajectory is dynamically consistent with the real robot. This part of work is about modifying the C++ code used in controlling another robot as mentioned in this <a href="https://ieeexplore.ieee.org/document/6739663">paper</a>. By using this algorithm, SLIDER can walk with forward speed up to 0.5 m/s in simulation.</p>
 
 <h2 id="online-regeneration-by-finding-the-optimal-gait-parameters">Online regeneration by finding the optimal gait parameters</h2>

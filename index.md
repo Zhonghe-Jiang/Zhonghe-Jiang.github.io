@@ -1,5 +1,5 @@
 ---
-layout: default_home
+layout: home
 title: Zhonghe Jiang
 description: This is just another page
 ---
