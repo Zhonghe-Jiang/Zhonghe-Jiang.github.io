@@ -4,12 +4,12 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=e4978ab44ca2d54a91fd9043b4ea5d735766a667">
+    <link rel="stylesheet" href="/assets/css/style.css?v=7980d8862459190558af28926f2c3d72514809a5">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Mathworks Minidrone Competition | Zhonghe Jiang</title>
+<title>Line Following Drone | Zhonghe Jiang</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="Mathworks Minidrone Competition" />
+<meta property="og:title" content="Line Following Drone" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Control boy who likes robotics!" />
 <meta property="og:description" content="Control boy who likes robotics!" />
@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://localhost:4000/minidrone.html" />
 <meta property="og:site_name" content="Zhonghe Jiang" />
 <script type="application/ld+json">
-{"description":"Control boy who likes robotics!","@type":"WebPage","url":"http://localhost:4000/minidrone.html","headline":"Mathworks Minidrone Competition","@context":"http://schema.org"}</script>
+{"description":"Control boy who likes robotics!","@type":"WebPage","url":"http://localhost:4000/minidrone.html","headline":"Line Following Drone","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -52,11 +52,11 @@
 
     <div class="container">
       <section id="main_content">
-        <h2 id="introduction">Introduction</h2>
-<p>We are participating in <a href="https://www.mathworks.com/academia/student-competitions/minidrones/silver-circuit-2019.html">MathWorks Minidrone Competition at MATLAB EXPO 2019 UK</a>. This student competition aims at designing a line follower algorithm for a minidrone using the latest features from Simulink.</p>
+        <p>Our team participated in MathWorks Minidrone Competition 2019 UK. This student competition aims at designing a line follower algorithm for a minidrone using the latest features from Simulink.</p>
 
-<h2 id="implementation">Implementation</h2>
-<p>Our algorithm submitted for the simulation round is capable of finishing different tracks. The shortlist for Round 2 will be released on 28 August 2019, stayed tuned for more information or <a href="mailto:Zhonghe.Jiang@outlook.com">email me</a> if you are interested in doing similar project.</p>
+<p>The image processing is achieved by Computer Vision Toolbox. Since the path in the simulation is always red, we only extract the red component of the raw RGB image which is then pre-processed by morphological erosion and dilation. Next, we pad the image and detect the corners using Harris Corner Detector, which gives the location of each vertex of the path. A large sensitivity factor is used in corner detection to eliminate the noisy vertices during turning. The landing circular marker is found using circular Hough transform.</p>
+
+<p>The heuristic path planning strategy is based on the information of the vertices and is implemented as a finite state machine using Stateflow. The basic idea can be summarised below. Normally, the drone keeps moving forward and tries to keep the centre of the vertices at the middle of the image. This achieved by a proportional feedback with a small P gain. When the drone finds the corner by detecting more than five vertices, the feedback is off and it will fly to the centre of the inner vertices. It then keeps turning until the centre of the vertices on the upper bound of the image reaches the middle. After finding the new path, it simply keeps flying forward with feedback on.</p>
 
 <p><a href="./">back to home</a></p>
 

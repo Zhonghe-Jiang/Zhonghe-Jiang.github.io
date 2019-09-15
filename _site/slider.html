@@ -4,12 +4,12 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=e4978ab44ca2d54a91fd9043b4ea5d735766a667">
+    <link rel="stylesheet" href="/assets/css/style.css?v=7980d8862459190558af28926f2c3d72514809a5">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>SLIDER | Zhonghe Jiang</title>
+<title>Gait Pattern Generation of SLIDER | Zhonghe Jiang</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="SLIDER" />
+<meta property="og:title" content="Gait Pattern Generation of SLIDER" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Control boy who likes robotics!" />
 <meta property="og:description" content="Control boy who likes robotics!" />
@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://localhost:4000/slider.html" />
 <meta property="og:site_name" content="Zhonghe Jiang" />
 <script type="application/ld+json">
-{"description":"Control boy who likes robotics!","@type":"WebPage","url":"http://localhost:4000/slider.html","headline":"SLIDER","@context":"http://schema.org"}</script>
+{"description":"Control boy who likes robotics!","@type":"WebPage","url":"http://localhost:4000/slider.html","headline":"Gait Pattern Generation of SLIDER","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -45,23 +45,28 @@
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
     </header>
 
+    <video style="display:block; margin: 0 auto;" muted autoplay width="550" height="300" controls loop>
+        <source src="http://localhost:4000/video/regeneration.mp4" type="video/mp4">
+        Sorry, your browser does not support the video tag.
+    </video>
+
     <!-- <center>
       <img src="http://localhost:4000/pictures/slider0.jpeg" alt="Testing with SLIDER" width="500" height="500" class="rotateimg90">
     </center> -->
 
     <div class="container">
       <section id="main_content">
-        <h2 id="introduction">Introduction</h2>
-<p>SLIDER is a novel bipedal walking robot with knee-less legs and has a vertical hip sliding motion. <a href="http://kormushev.com/publication/wang2018clawar/">Here</a> is a more detailed description about its mechanical design. My project is focused on the control algorithm for motion planning of this robot. Since the whole SLIDER project is still in progress and we are at the key stage of walking test, we cannot provide too much detailed information about this project. But, hopefully, we will finish the walking test in this summer.</p>
+        <p><a href="http://www.imperial.ac.uk/robot-intelligence/robots/slider/">SLIDER</a> is a novel bipedal walking robot with knee-less legs and has a vertical hip sliding motion. <a href="http://kormushev.com/publication/wang2018clawar/">Here</a> is a more detailed description about its mechanical design. This project explores the gait pattern generation algorithm for this robot. The primary goal of this project is to modify an existing C++ code used for walking pattern generation of another robot <a href="https://ieeexplore.ieee.org/document/7353844">COMAN</a> so that it can be reused for our robot SLIDER.</p>
 
-<h2 id="linear-inverted-pendulum-and-preview-control">Linear inverted pendulum and preview control</h2>
-<p>The current control algorithm we are using is a two-stage controller, where the first stage generates the centre of mass (COM) and feet trajectories using linear inverted pendulum (LIMP) model and the second stage uses preview control to refine the trajectories by considering the multi-body kinematics so that the final joint trajectory is dynamically consistent with the real robot. This part of work is about modifying the C++ code used in controlling another robot as mentioned in this <a href="https://ieeexplore.ieee.org/document/6739663">paper</a>. By using this algorithm, SLIDER can walk with forward speed up to 0.5 m/s in simulation.</p>
+<p>The walking pattern generation process is divided into two stages. The first stage uses the linear inverted pendulum (LIP) model and accepts the reference center of mass (CoM) velocity as input to generate a semi-dynamically consistent zero moment point (ZMP) trajectory. The second stage uses this reference ZMP trajectory to generate the final gait pattern. It contains the preview controller with multibody system (MBS) included which is a more accurate description of the actual system’s dynamics than considering the robot as a point mass (LIP model). The preview controller is actually solving an unconstrained linear quadratic tracking problem with receding horizon control. It is used as a dynamics filter in the second stage for the reference motion generated from the first stage.</p>
 
-<h2 id="online-regeneration-by-finding-the-optimal-gait-parameters">Online regeneration by finding the optimal gait parameters</h2>
-<p>Based on the above walking pattern generator, we continuously checking the desired COM position with the one estimated from IMU and forward kinematics. If the deviation becomes larger than a certain tolerance, we regenerate the trajectory by solving a nonlinear program to find the optimal gait parameters to bring the robot back to limit cycle. The detailed realization can be found in this <a href="https://ieeexplore.ieee.org/document/7353844">paper</a>. The overall structure of this method has already been implemented and we are now in the stage of tuning the parameters in order to fit our robot model. All the methods mentioned so far have been coded in C++ and ROSified to interact with Gazebo.</p>
+<p>Another feature of the C++ code is the regeneration strategy which is activated when the CoM position of the robot deviates too much from the reference. This regeneration is achieved by solving a nonlinear program (NLP) which minimizes the foot displacement and gives the optimal gait parameters for the next two consecutive steps. In our implementation, <a href="https://www.coin-or.org/Ipopt/documentation/">IPOPT</a> is used as the nonlinear programming solver.</p>
 
-<h2 id="current-work">Current work</h2>
-<p>We are now mainly focusing on using trajectory optimization as a high-level controller to generate the COM and end-effector trajectories and then formulating a quadratic program to track these desired trajectories. Especially, using reduced order model and finding a convex formulation so that the algorithm can be computed fast enough to be implemented in an MPC fashion. More details coming soon.</p>
+<p>This modified C++ code is then ROSified to interact with Gazebo. The simulation result shows a quite stable walking pattern and the robot can also sidestep to recover from the push in the y direction (coronal plane) and return to the limit cycle within three steps.</p>
+
+<p>I also reimplemented the operational space controller mentioned <a href="http://www.roboticsproceedings.org/rss14/p54.pdf">here</a>. It solves a quadratic program (QP) at each time step based on the current state of the robot and generates the joint torques to be executed on the robot. The motion reference for this controller is still generated from the LIP model since I did not have enough time to finish programming the high-level trajectory optimization used for controlling Cassie. The code is also written in C++ and ROSified to communicate with Gazebo. <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> is used for linear algebra, <a href="https://stack-of-tasks.github.io/pinocchio/">Pinocchio</a> is used for multi-body dynamics computations and <a href="https://projects.coin-or.org/qpOASES">qpOASES</a> is used as the quadratic programming solver. The simulation result shows a successful torque-controlled walking pattern, though the computational speed of my implementation needs to be increased by reformulating the QP problem and using a faster QP solver if possible.</p>
+
+<p>In addition to the modification and reimplementaion of the above control algorithms, I also participated in the walking test of the real robot and proposed a geometrical method to solve the inverse kinematics of the novel ankle design, which reduces the computational time to 2 ms in MATLAB.</p>
 
 <p><a href="./">back to home</a></p>
 

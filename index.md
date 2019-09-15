@@ -10,6 +10,6 @@ I am a master student in Control Systems at Imperial College London. My master p
 Before joining Imperial, I completed the "2+2" undergraduate program in Electrical and Electronic Engineering between Nanjing University of Aeronautics and Astronautics (NUAA) and City, University of London. The course has many extra modules in classical and modern control theory. I did my thesis project with [Dr. Stathis Milonidis](https://www.city.ac.uk/people/academics/stathis-milonidis), where I designed the control algorithm for a rotary inverted pendulum.
 
 # Projects
-*   [Model Predictive Control for Legged Locomotion](./slider.html).
-*   [Mathworks Minidrone Competition](./minidrone.html).
-*   [Modelling, Simulation and Control System Design for Rotary Inverted Pendulum](./RIP.html).
+*   [Gait Pattern Generation of SLIDER](./slider.html).
+*   [Line Following Drone](./minidrone.html).
+*   [Rotary Inverted Pendulum](./RIP.html).
