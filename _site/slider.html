@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=10649157cd0754732c38165cb75805ae0d1e15aa">
+    <link rel="stylesheet" href="/assets/css/style.css?v=2076ec0027f97cdc78a01df959574a92fba49f34">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Gait Pattern Generation of SLIDER | Zhonghe Jiang</title>
@@ -67,9 +67,9 @@
 
 <p>Another feature of the C++ code is the regeneration strategy which is activated when the CoM position of the robot deviates too much from the reference. This regeneration is achieved by solving a nonlinear program (NLP) which minimizes the foot displacement and gives the optimal gait parameters for the next two consecutive steps. In our implementation, <a href="https://www.coin-or.org/Ipopt/documentation/">IPOPT</a> is used as the nonlinear programming solver.</p>
 
-<p>This modified C++ code is then ROSified to interact with Gazebo. The simulation result shows a quite stable walking pattern and the robot can also sidestep to recover from the push in the y direction (coronal plane) and return to the limit cycle within three steps.</p>
+<p>This modified C++ code is then ROSified to interact with Gazebo. The simulation result (see first video) shows a quite stable walking pattern and the robot can also sidestep to recover from the push in the y direction (coronal plane) and return to the limit cycle within three steps.</p>
 
-<p>I also reimplemented the operational space controller mentioned <a href="http://www.roboticsproceedings.org/rss14/p54.pdf">here</a>. It solves a quadratic program (QP) at each time step based on the current state of the robot and generates the joint torques to be executed on the robot. The motion reference for this controller is still generated from the LIP model since I did not have enough time to finish programming the high-level trajectory optimization used for controlling Cassie. The code is also written in C++ and ROSified to communicate with Gazebo. <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> is used for linear algebra, <a href="https://stack-of-tasks.github.io/pinocchio/">Pinocchio</a> is used for multi-body dynamics computations and <a href="https://projects.coin-or.org/qpOASES">qpOASES</a> is used as the quadratic programming solver. The simulation result shows a successful torque-controlled walking pattern, though the computational speed of my implementation needs to be increased by reformulating the QP problem and using a faster QP solver if possible.</p>
+<p>I also reimplemented the operational space controller mentioned <a href="http://www.roboticsproceedings.org/rss14/p54.pdf">here</a>. It solves a quadratic program (QP) at each time step based on the current state of the robot and generates the joint torques to be executed on the robot. The motion reference for this controller is still generated from the LIP model since I did not have enough time to finish programming the high-level trajectory optimization used for controlling Cassie. The code is also written in C++ and ROSified to communicate with Gazebo. <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> is used for linear algebra, <a href="https://stack-of-tasks.github.io/pinocchio/">Pinocchio</a> is used for multi-body dynamics computations and <a href="https://projects.coin-or.org/qpOASES">qpOASES</a> is used as the quadratic programming solver. The simulation result (see second video) shows a successful torque-controlled walking pattern, though the computational speed of my implementation needs to be increased by reformulating the QP problem and using a faster QP solver if possible.</p>
 
 <p>In addition to the modification and reimplementaion of the above control algorithms, I also participated in the walking test of the real robot and proposed a geometrical method to solve the inverse kinematics of the novel ankle design, which reduces the computational time to 2 ms in MATLAB.</p>
 
